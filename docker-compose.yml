@@ -9,6 +9,12 @@ services:
       - "5432:5432"
     volumes:
       - jobtracker-db-data:/var/lib/postgresql/data
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672" # port AMQP
+      - "15672:15672" # port Management UI
 
   app:
     build: .
@@ -18,6 +24,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
+      - rabbitmq
 
 volumes:
   jobtracker-db-data:
